@@ -1,17 +1,32 @@
-const {ApolloServer} = require("apollo-server")
-const gpl = require ('graphql-tag')
-const mongoose = require('mongoose')
-const  {MONGODB} = require ('./config.js')
+import {ApolloServer} from ("apollo-server")
+import gpl from ('graphql-tag')
+import mongoose from ('mongoose')
+
+import {MONGODB} from ('./config.js')
+import Post from ('./models/Post')
 
 const typeDefs = gpl `
-    type Query {
-        sayHi: String
+    type Post {
+        id: ID!
+        body: String!
+        createdAt: String!
+        username: String!
     }
-`
+    type Query {
+        getPosts: [Post]
+    }
+`;
 
 const resolvers = {
     Query: {
-        sayHi: () => "hello world!!!"
+        async getPosts(){
+            try{
+                const posts = await Post.find();
+                return posts;
+            }catch(err){
+                throw new Error(err)
+            }
+        }
     }
 }
 
