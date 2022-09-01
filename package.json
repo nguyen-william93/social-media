@@ -1,0 +1,28 @@
+{
+  "name": "social-media",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nguyen-william93/social-media.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nguyen-william93/social-media/issues"
+  },
+  "homepage": "https://github.com/nguyen-william93/social-media#readme",
+  "dependencies": {
+    "apollo-server": "^3.10.2",
+    "dotenv": "^16.0.2",
+    "graphql": "^16.6.0",
+    "mongoose": "^6.5.4",
+    "nodemon": "^2.0.19"
+  }
+}
