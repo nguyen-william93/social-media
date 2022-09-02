@@ -31,7 +31,6 @@ module.exports.validateRegisterInput = (
 }
 
 module.exports.validateLoginInput = (username, password) => {
-    console.log(username, password)
     const errors = {}
 
     if(username.trim() === ''){
