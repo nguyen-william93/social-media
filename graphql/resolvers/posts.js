@@ -4,7 +4,7 @@ const {AuthenticationError} = require('apollo-server')
 
 module.exports = {
     Query: {
-        async getPosts(){
+        getPosts: async() => {
             try{
                 const posts = await Post.find().sort({ createdAt: -1});
                 return posts;
@@ -12,7 +12,7 @@ module.exports = {
                 throw new Error(err)
             }
         },
-        async getPost(parent, {postId}) {
+        getPost: async(parent, {postId}) => {
             try{
                 const post = await Post.findById(postId);
                 if(post){
@@ -27,7 +27,7 @@ module.exports = {
     },
 
     Mutation:{
-        async createPost(parent, {body}, context){
+        createPost: async(parent, {body}, context) => {
             const user = checkAuth(context);
             const newPost = new Post(
                 {
@@ -43,7 +43,7 @@ module.exports = {
             return post
         },
 
-        async deletePost(parent, {postId}, context){
+        deletePost: async(parent, {postId}, context)=>{
             const user = checkAuth(context);
             try{
                 const post = await Post.findById(postId);
