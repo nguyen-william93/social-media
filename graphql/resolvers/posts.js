@@ -40,7 +40,7 @@ module.exports = {
                     body,
                     user: user.indexOf,
                     username: user.username,
-                    createdAt: new Date().toISOString
+                    createdAt: new Date().toISOString()
                 }
             )
 
