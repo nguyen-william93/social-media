@@ -15,7 +15,7 @@ const PostCard = ({ post: {body, createdAt, id, username, likeCount, commentCoun
 
     return(
     <Card fluid>
-      <Card.Content>
+      <Card.Content fluid>
         <Image
           floated='right'
           size='mini'
