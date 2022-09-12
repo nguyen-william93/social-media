@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {ApolloClient} from '@apollo/client'
-import { InMemoryCache } from 'apollo-cache-inmemory'
+import { InMemoryCache } from '@apollo/client'
 import { createHttpLink } from 'apollo-link-http'
 import { ApolloProvider } from '@apollo/client'
 
