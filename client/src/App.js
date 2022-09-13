@@ -7,19 +7,24 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import MenuBar from './components/MenuBar'
 
+import {AuthProvider} from './context/auth'
+// import AuthRoute from './utils/AuthRoutes';
+
 
 function App() {
   return (
-    <Router>
-      <Container>
-        <MenuBar />
-        <Routes>
-          <Route exact path='/' element={<Home />} />
-          <Route exact path='/login' element={<Login/>} />
-          <Route exact path='/register' element={<Register/>} />
-        </Routes>
-      </Container>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Container>
+          <MenuBar />
+          <Routes>
+            <Route exact path='/' element={<Home />} />
+            <Route exact path='/login' element={<Login/>} />
+            <Route exact path='/register' element={<Register/>} />
+          </Routes>
+        </Container>
+      </Router>
+    </AuthProvider>
   );
 }
 

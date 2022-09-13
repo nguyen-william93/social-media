@@ -1,18 +1,21 @@
-import React, {useState} from "react"
+import React, {useState, useContext} from "react"
 import {useNavigate} from 'react-router-dom'
 import {Form, Button} from 'semantic-ui-react'
 import {useMutation} from '@apollo/react-hooks'
 import gql from  'graphql-tag'
 
 import {useForm} from '../utils/Hooks'
+import {AuthContext} from '../context/auth'
 
 function Register(props) {
     const [errors, setErrors] = useState({});
     const { onChange, onSubmit, values} = useForm(registerUser, {username:"", password:"", email: "", confirmedPassword: ""})
     const nav = useNavigate()
+    const context = useContext(AuthContext)
 
      const [addUser, {loading}] = useMutation(REGISTER_USER, {
-        update(_, result){
+        update(_, {data: {register: userData}}){
+            context.login(userData)
             nav('/')
         },
         onError(err){

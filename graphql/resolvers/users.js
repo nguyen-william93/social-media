@@ -12,7 +12,7 @@ const generaToken = (user) => {
         username: user.username
     }, 
     SECRET_KEY, 
-    {expiresIn: '5h'});
+    {expiresIn: "5h"});
 }
 
 
