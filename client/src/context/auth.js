@@ -53,7 +53,7 @@ const AuthProvider= (props) => {
         localStorage.removeItem('jwtToken')
         dispatch({
             type: "LOGOUT",
-        })
+        });
     }
 
     return (

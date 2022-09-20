@@ -1,7 +1,7 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState, useRef} from 'react'
 import gql from 'graphql-tag'
-import {useQuery} from '@apollo/react-hooks'
-import { Card, Grid, Image, Button } from 'semantic-ui-react';
+import {useQuery, useMutation} from '@apollo/react-hooks'
+import { Card, Grid, Image, Button, Message, Form} from 'semantic-ui-react';
 import moment from 'moment'
 import {useParams, useNavigate} from 'react-router-dom'
 
@@ -12,24 +12,32 @@ import DeleteButton from '../components/DeleteButton';
 const  SinglePost = (props) => {
     const {postId} = useParams()
     const nav = useNavigate()
+    const [comment, setComment] = useState('')
 
     const {user} =useContext(AuthContext)
 
+    const commentInputRef = useRef(null)
     const {loading, data} = useQuery(FETCH_POST_QUERY, {
         variables: { postId },
+    })
+
+    const [submitComment] = useMutation(SUBMIT_COMMENT_MUTATION, {
+        update(){
+            setComment('');
+            commentInputRef.current.blur()
+        },
+        variables: {postId, body:comment}
     })
 
     const deletePostCallBack = () =>{
         nav('/')
     }
 
-
     let postMarkup;
     if(loading){
         postMarkup = <p>Loading post...</p>
     } else {
-        const { id, body, createdAt, username, likes, commentCount, likeCount} = data.getPost
-
+        const { id, body, createdAt, username, likes, commentCount, likeCount, comments} = data.getPost
         postMarkup = (
             <Grid>
                 <Grid.Row>
@@ -54,6 +62,36 @@ const  SinglePost = (props) => {
                                 )}
                             </Card.Content>
                         </Card>
+                        {user && (
+                            <Card fluid>
+                                <Card.Content>
+                                    <p>Post a Comment</p>
+                                    <Form>
+                                        <div className='ui action input fluid'>
+                                            <input type='text' placeholder='Comment...' name='comment' value={comment} onChange={event => setComment(event.target.value)} ref={commentInputRef}/>
+                                            <button type='submit' className='ui button blue' disabled={comment.trim()===''} onClick={submitComment}>Submit</button>
+                                        </div>
+                                    </Form>
+                                </Card.Content>
+                            </Card>
+                        )}
+                        {comments.length > 0 ? 
+                        (comments.map(comment => (
+                            <Card fluid key={comment.id}>
+                                <Card.Content>
+                                    {user && user.username === comment.username && (
+                                        <DeleteButton postId={id} commentId={comment.id} />
+                                    )}
+                                    <Card.Header>{comment.username}</Card.Header>
+                                    <Card.Meta>{moment(comment.createdAt).fromNow()}</Card.Meta>
+                                    <Card.Description>{comment.body}</Card.Description>
+                                </Card.Content>
+                            </Card>
+                        ))):(
+                            <Message info>
+                            <Message.Header>No Comment on this post</Message.Header>
+                          </Message>
+                        )}            
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
@@ -71,8 +109,21 @@ const FETCH_POST_QUERY = gql `
             }
             commentCount
             comments{
-                id username createdAt
+                id username createdAt body
             }
+        }
+    }
+`
+
+const SUBMIT_COMMENT_MUTATION = gql `
+    mutation($postId: ID!, $body: String!){
+        createComment(postId: $postId, body: $body){
+            id
+            comments{
+                id body createdAt username
+            }
+            commentCount
+
         }
     }
 `
