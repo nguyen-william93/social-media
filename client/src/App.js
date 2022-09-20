@@ -6,6 +6,7 @@ import Register from './pages/Register'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import MenuBar from './components/MenuBar'
+import SinglePost from './pages/SinglePost'
 
 import {AuthProvider} from './context/auth'
 // import AuthRoute from './utils/AuthRoutes';
@@ -21,6 +22,7 @@ function App() {
             <Route exact path='/' element={<Home />} />
             <Route exact path='/login' element={<Login/>} />
             <Route exact path='/register' element={<Register/>} />
+            <Route exact path='/posts/:postId' element={<SinglePost />} />
           </Routes>
         </Container>
       </Router>

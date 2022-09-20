@@ -11,17 +11,20 @@ const PostForm = () => {
     const {values, onChange, onSubmit} = useForm(createPostCallBack, {
         body: ""
     });
-    const [createPost, { error }] = useMutation(CREATE_POST_MUTATION, {
+    const [createPost, { error, loading }] = useMutation(CREATE_POST_MUTATION, {
         variables: values,
-        update(proxy, result){
-            const data = proxy.readQuery({
-                query: FETCH_POSTS_QUERY
-            })
-            proxy.writeQuery({query: FETCH_POSTS_QUERY, data})
-            values.body=""
-        },
         refetchQueries: [{query: FETCH_POSTS_QUERY}, 'getPosts'],
     })
+
+    const submitPostButton = loading ? (
+        <Button loading color='teal'>
+            Loading
+        </Button>
+    ):(
+        <Button type = "submit" color='teal'>
+            Submit
+        </Button>
+    )
 
     function createPostCallBack(){
         createPost();
@@ -39,9 +42,7 @@ const PostForm = () => {
                     value={values.body}
                     error={error ? true : false}
                 />
-                <Button type="submit" color="teal" >
-                    Submit
-                </Button>     
+                {submitPostButton}
             </Form.Field>
         </Form>
         {error && (

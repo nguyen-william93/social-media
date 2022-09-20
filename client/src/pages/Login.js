@@ -23,7 +23,15 @@ function Login(props) {
         },
         variables: values
     })
-
+    const loginButton = loading ? (
+        <Button loading primary>
+            Loading
+        </Button>
+    ):(
+        <Button type ='submit' primary>
+            Login
+        </Button>
+    )
     function loginUserCallback (){
         loginUser();
     }
@@ -50,9 +58,7 @@ function Login(props) {
                     error={errors.password ? true : false}
                     onChange={onChange}
                 />
-                <Button type='submit' primary>
-                    Login
-                </Button>  
+                {loginButton}
             </Form>
             {Object.keys(errors).length > 0 && (
                 <div className="ui error message">

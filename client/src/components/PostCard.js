@@ -1,10 +1,12 @@
 import React, {useContext} from 'react'
-import {Card, Icon, Image, Button} from 'semantic-ui-react';
+import {Card, Image, Button} from 'semantic-ui-react';
 import moment from 'moment'
 import {Link} from 'react-router-dom'
 
 import {AuthContext} from '../context/auth'
 import LikeButton from './LikeButton'
+import DeleteButton from './DeleteButton'
+
 const PostCard = ({ post: {body, createdAt, id, username, likeCount, commentCount, likes}}) => {
 
     const {user} = useContext(AuthContext)
@@ -24,11 +26,9 @@ const PostCard = ({ post: {body, createdAt, id, username, likeCount, commentCoun
       <Card.Content extra>
         <LikeButton user={user} post={{id, likeCount, likes}}/>
         <Button as={Link} to={`/posts/${id}`} icon='comments' content={commentCount} color='blue' />
-        {user && user.username===username && (
-          <Button color='red' floated='right' onClick={() => console.log('delete post')}>
-            <Icon name='trash' style={{margin:0}}/>
-          </Button>
-        )}
+        {user && user.username===username && 
+          <DeleteButton postId={id} />
+        }
       </Card.Content>
     </Card>
     )
