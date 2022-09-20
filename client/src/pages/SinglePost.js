@@ -8,6 +8,7 @@ import {useParams, useNavigate} from 'react-router-dom'
 import { AuthContext } from '../context/auth';
 import LikeButton from '../components/LikeButton';
 import DeleteButton from '../components/DeleteButton';
+import MyPopup from '../utils/MyPopup';
 
 const  SinglePost = (props) => {
     const {postId} = useParams()
@@ -56,7 +57,9 @@ const  SinglePost = (props) => {
                             <hr/>
                             <Card.Content extra>
                                 <LikeButton user={user} post={{id, likeCount, likes}}/>
-                                <Button as='div' labelPostition='right' onClick={()=> console.log('Comment on post')} icon="comments" color='blue' content={commentCount}/>
+                               <MyPopup inverted content="Comment on a post">
+                                <Button as='div' labelpostition='right' onClick={()=> console.log('Comment on post')} icon="comments" color='blue' content={commentCount}/>
+                               </MyPopup>
                                 {user && user.username === username && (
                                     <DeleteButton postId={id} callback={deletePostCallBack}/>
                                 )}
