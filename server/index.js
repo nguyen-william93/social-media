@@ -6,6 +6,10 @@ const {MONGODB}= require ('./config.js')
 const resolvers=require ('./graphql/resolvers')
 const typeDefs = require('./graphql/typeDefs')
 
+const express = require('express')
+const path = require('path')
+const app = express();
+
 const PORT = process.env.PORT || 5000;
 
 const pubsub = new PubSub();
@@ -16,13 +20,29 @@ const server = new ApolloServer({
     context: ({req})=>({req, pubsub})
 })
 
+app.use(express.urlencoded({extended: false}))
+app.use(express.json());
 
-mongoose.connect( MONGODB , {useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => {
-        console.log('MongoDB connected')
-        return server.listen({port: PORT})
-    }).then(res => {
-        console.log(`server running at ${res.url}`)
-    }).catch(err => {
-        console.error(err)
-    })
+// Serve up static assets
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../client/build')));
+  }
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/build/index.html'));
+  });
+
+
+const db = mongoose.connect( MONGODB , {    
+    useNewUrlParser: true, 
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false
+})
+
+db.once('open', () => {
+    app.listen(PORT, () => {
+      console.log(`API server running on port ${PORT}!`);
+      console.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`);
+    });
+  });
