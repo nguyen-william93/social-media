@@ -13,7 +13,7 @@ function Register(props) {
     const nav = useNavigate()
     const context = useContext(AuthContext)
 
-     const [addUser, {loading}] = useMutation(REGISTER_USER, {
+     const [addUser] = useMutation(REGISTER_USER, {
         update(_, {data: {register: userData}}){
             context.login(userData)
             nav('/')
