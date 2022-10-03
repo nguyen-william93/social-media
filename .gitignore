@@ -2,7 +2,6 @@
 node_modules
 scripts/flow/*/.flowconfig
 .flowconfig
-config.js
 package-lock.json
 *~
 *.pyc
