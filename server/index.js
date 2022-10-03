@@ -6,7 +6,7 @@ const {MONGODB}= require ('./config.js')
 const resolvers=require ('./graphql/resolvers')
 const typeDefs = require('./graphql/typeDefs')
 
-const PORT = process.env.port || 5000;
+const PORT = process.env.PORT || 5000;
 
 const pubsub = new PubSub();
 
@@ -16,9 +16,8 @@ const server = new ApolloServer({
     context: ({req})=>({req, pubsub})
 })
 
-const uri = `mongodb+srv://admin:admin@social-media.587fn6w.mongodb.net/social-media?retryWrites=true&w=majority`
 
-mongoose.connect( uri , {useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect( MONGODB , {useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
         console.log('MongoDB connected')
         return server.listen({port: PORT})
