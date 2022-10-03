@@ -16,9 +16,9 @@ const server = new ApolloServer({
     context: ({req})=>({req, pubsub})
 })
 
-console.log(MONGODB)
+const uri = `mongodb+srv://admin:admin@social-media.587fn6w.mongodb.net/social-media?retryWrites=true&w=majority`
 
-mongoose.connect(MONGODB , {useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect( uri , {useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
         console.log('MongoDB connected')
         return server.listen({port: PORT})
