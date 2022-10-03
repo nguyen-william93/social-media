@@ -9,11 +9,34 @@ import MenuBar from './components/MenuBar'
 import SinglePost from './pages/SinglePost'
 
 import {AuthProvider} from './context/auth'
-// import AuthRoute from './utils/AuthRoutes';
+import {ApolloClient} from '@apollo/client'
+import { InMemoryCache } from '@apollo/client'
+import { createHttpLink } from 'apollo-link-http'
+import { ApolloProvider } from '@apollo/client'
+import { setContext } from 'apollo-link-context'
+
+const httpLink = createHttpLink({
+    uri: '/graphql'
+})
+
+const authLink = setContext(() => {
+  const token = localStorage.getItem('jwtToken');
+  return {
+    headers: {
+      Authorization: token ? `Bearer ${token}` : ""
+    }
+  }
+})
+
+const client = new ApolloClient({
+    link: authLink.concat(httpLink),
+    cache: new InMemoryCache()
+});
 
 
 function App() {
   return (
+    <ApolloProvider client={client}>
     <AuthProvider>
       <Router>
         <Container>
@@ -27,6 +50,7 @@ function App() {
         </Container>
       </Router>
     </AuthProvider>
+    </ApolloProvider>
   );
 }
 
