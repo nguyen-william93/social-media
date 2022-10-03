@@ -1,0 +1,26 @@
+{
+  "name": "social-media",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/index.js",
+    "install": "cd server && npm i && cd ../client && npm i",
+    "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
+    "build": "cd client && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nguyen-william93/social-media.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nguyen-william93/social-media/issues"
+  },
+  "homepage": "https://github.com/nguyen-william93/social-media#readme",
+  "dependencies": {
+    "concurrently": "^7.4.0"
+  }
+}
