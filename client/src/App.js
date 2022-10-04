@@ -16,7 +16,7 @@ import { ApolloProvider } from '@apollo/client'
 import { setContext } from 'apollo-link-context'
 
 const httpLink = createHttpLink({
-    uri: '/graphql'
+    uri: 'http://localhost:5000'
 })
 
 const authLink = setContext(() => {
@@ -37,19 +37,19 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-    <AuthProvider>
-      <Router>
-        <Container>
-          <MenuBar />
-          <Routes>
-            <Route exact path='/' element={<Home />} />
-            <Route exact path='/login' element={<Login/>} />
-            <Route exact path='/register' element={<Register/>} />
-            <Route exact path='/posts/:postId' element={<SinglePost />} />
-          </Routes>
-        </Container>
-      </Router>
-    </AuthProvider>
+      <AuthProvider>
+        <Router>
+          <Container>
+            <MenuBar />
+            <Routes>
+              <Route exact path='/' element={<Home />} />
+              <Route exact path='/login' element={<Login/>} />
+              <Route exact path='/register' element={<Register/>} />
+              <Route exact path='/posts/:postId' element={<SinglePost />} />
+            </Routes>
+          </Container>
+        </Router>
+      </AuthProvider>
     </ApolloProvider>
   );
 }
