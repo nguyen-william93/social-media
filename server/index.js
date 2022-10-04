@@ -17,7 +17,11 @@ const pubsub = new PubSub();
 const server = new ApolloServer({
     typeDefs,
     resolvers,
-    context: ({req})=>({req, pubsub})
+    cache: "bounded",
+    context: ({req})=>({req, pubsub}),
+    plugins: [
+        ApolloServerPluginLandingPageDisabled(),
+      ],
 })
 
 app.use(express.urlencoded({extended: false}))
