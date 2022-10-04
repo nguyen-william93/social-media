@@ -19,9 +19,6 @@ const server = new ApolloServer({
     resolvers,
     cache: "bounded",
     context: ({req})=>({req, pubsub}),
-    plugins: [
-        ApolloServerPluginLandingPageDisabled(),
-      ],
 })
 
 app.use(express.urlencoded({extended: false}))
@@ -35,7 +32,7 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/build/index.html'));
   });
 
-mongoose.connect( process.env.MONGODB_URI , {useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(MONGODB , {useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
         console.log('MongoDB connected')
         return server.listen({port: PORT})
